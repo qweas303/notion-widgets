@@ -8,12 +8,11 @@
 .ko{font-size:13px;color:#7a7a7a;font-weight:500}
 </style></head><body>
 <div class="card"><div class="row"><div class="day" id="d">--</div>
-<div class="right"><div class="label" id="w">WEEKDAY</div><div class="month" id="m"></div><div class="ko" id="k"></div></div></div></div>
+<div class="right"><div class="label" id="w">WEEKDAY</div><div class="month" id="m"></div></div></div></div>
 <script>
 function draw(){const n=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
 d.textContent=String(n.getDate()).padStart(2,'0');
 w.textContent=n.toLocaleDateString('en-US',{weekday:'long'});
-m.textContent=n.toLocaleDateString('en-US',{month:'long'})+' '+n.getFullYear();
-k.textContent=n.getFullYear()+'. '+(n.getMonth()+1)+'. '+n.getDate()+'. '+'일월화수목금토'[n.getDay()]+'요일';}
+m.textContent=n.toLocaleDateString('en-US',{month:'long'})+' '+n.getFullYear();}
 draw();setInterval(draw,30000);
 </script></body></html>
