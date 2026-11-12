@@ -4,7 +4,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:transparent;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;gap:3vh;font-family:"Inter","Helvetica Neue",Arial,sans-serif;--h:min(80vh,31vw)}
+body{display:flex;align-items:center;justify-content:center;gap:3vh;font-family:"Inter","Helvetica Neue",Arial,sans-serif;--h:min(80vh,20vw)}
 .flip{position:relative;width:calc(var(--h)*1.08);height:var(--h);perspective:600px;font-size:calc(var(--h)*.66);font-weight:700;color:#e6e6e6;letter-spacing:-.02em}
 .half{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#262626;display:flex;justify-content:center}
 .half span{display:block;height:var(--h);line-height:var(--h)}
@@ -22,7 +22,7 @@ body{display:flex;align-items:center;justify-content:center;gap:3vh;font-family:
 .colon{display:flex;flex-direction:column;gap:calc(var(--h)*.18)}
 .colon i{width:calc(var(--h)*.07);height:calc(var(--h)*.07);border-radius:50%;background:#3a3a3a}
 </style></head><body>
-<div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div>
+<div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div>
 <script>
 const P=new URLSearchParams(location.search);
 function build(el,v){el.dataset.v=v;el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${v}</span></div>`;}
@@ -30,7 +30,7 @@ function flip(el,v){const o=el.dataset.v;if(o===v)return;el.dataset.v=v;
 el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${o}</span></div><div class="half top flap"><span>${o}</span></div><div class="half flap2"><span>${v}</span></div>`;
 requestAnimationFrame(()=>{el.querySelector('.flap').classList.add('go');el.querySelector('.flap2').classList.add('go');});
 setTimeout(()=>build(el,v),950);}
-function now(){const s=new Date().toLocaleTimeString('en-GB',{timeZone:P.get('tz')||'Asia/Seoul',hour12:false,hour:'2-digit',minute:'2-digit'});return s.split(':');}
-const [h,m]=now();build(H,h);build(M,m);
-setInterval(()=>{const [h,m]=now();flip(H,h);flip(M,m);},1000);
+function now(){const s=new Date().toLocaleTimeString('en-GB',{timeZone:P.get('tz')||'Asia/Seoul',hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});return s.split(':');}
+const [h,m,sc]=now();build(H,h);build(M,m);build(S,sc);
+setInterval(()=>{const [h,m,sc]=now();flip(H,h);flip(M,m);flip(S,sc);},250);
 </script></body></html>
