@@ -1,19 +1,14 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Date</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nanum+Myeongjo:wght@400;800&family=Inter:wght@500&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nanum+Myeongjo:wght@400;700;800&family=Inter:wght@500&display=swap" rel="stylesheet"><link rel="stylesheet" href="common.css?v=3">
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Date</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="common.css?v=4">
 <style>
-.row{display:flex;align-items:center;gap:20px}
-.day{font-size:clamp(60px,26vh,110px);line-height:.9;font-weight:600}
-.bar{width:1px;align-self:stretch;background:#111}
+.row{display:flex;align-items:center;gap:22px}
+.day{font-size:clamp(64px,30vh,112px);line-height:.85;font-weight:200;letter-spacing:-.04em}
 .right{display:flex;flex-direction:column;gap:8px}
-.month{font-size:clamp(18px,6vh,28px);font-weight:500;font-style:italic;letter-spacing:.02em}
-.ko{font-family:"Nanum Myeongjo",serif;font-size:13px;color:#555;letter-spacing:.08em}
+.month{font-size:clamp(20px,8vh,30px);font-weight:700;letter-spacing:-.02em}
+.ko{font-size:13px;color:#7a7a7a;font-weight:500}
 </style></head><body>
-<div class="card"><div class="row">
-<div class="day serif" id="d">--</div><div class="bar"></div>
-<div class="right"><div class="label" id="w">WEEKDAY</div><div class="month serif" id="m">Month 0000</div><div class="ko" id="k"></div></div>
-</div></div>
+<div class="card"><div class="row"><div class="day" id="d">--</div>
+<div class="right"><div class="label" id="w">WEEKDAY</div><div class="month" id="m"></div><div class="ko" id="k"></div></div></div></div>
 <script>
 function draw(){const n=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
 d.textContent=String(n.getDate()).padStart(2,'0');

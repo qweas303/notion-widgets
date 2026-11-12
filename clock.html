@@ -1,11 +1,11 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Flip Clock</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:transparent;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;font-family:"Inter","Helvetica Neue",Arial,sans-serif;--h:min(46vh,19vw)}
-.fr{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;border-top:1px solid #111;border-bottom:1px solid #111;display:flex;align-items:center;justify-content:center;gap:2.4vw}
+body{display:flex;align-items:center;justify-content:center;font-family:Pretendard,"Inter",sans-serif;--h:min(46vh,19vw)}
+.fr{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;border-top:2px solid #151515;border-bottom:1px solid #e3e3e3;display:flex;align-items:center;justify-content:center;gap:2.4vw}
 .flip{position:relative;width:calc(var(--h)*1.08);height:var(--h);perspective:600px;font-size:calc(var(--h)*.66);font-weight:700;color:#e6e6e6;letter-spacing:-.02em}
 .half{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#262626;display:flex;justify-content:center}
 .half span{display:block;height:var(--h);line-height:var(--h)}
