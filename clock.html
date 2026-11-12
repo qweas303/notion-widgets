@@ -4,7 +4,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:transparent;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;gap:3vh;font-family:"Inter","Helvetica Neue",Arial,sans-serif;--h:min(80vh,20vw)}
+body{display:flex;align-items:center;justify-content:center;font-family:"Inter","Helvetica Neue",Arial,sans-serif;--h:min(46vh,19vw)}
+.fr{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;border-top:1px solid #111;border-bottom:1px solid #111;display:flex;align-items:center;justify-content:center;gap:2.4vw}
 .flip{position:relative;width:calc(var(--h)*1.08);height:var(--h);perspective:600px;font-size:calc(var(--h)*.66);font-weight:700;color:#e6e6e6;letter-spacing:-.02em}
 .half{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#262626;display:flex;justify-content:center}
 .half span{display:block;height:var(--h);line-height:var(--h)}
@@ -18,11 +19,11 @@ body{display:flex;align-items:center;justify-content:center;gap:3vh;font-family:
 .flap2.go{animation:fl2 .45s .45s ease-out forwards}
 @keyframes fl{to{transform:rotateX(-90deg)}}@keyframes fl2{to{transform:rotateX(0)}}
 .flip::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:#111;z-index:5}
-.flip::before{content:"";position:absolute;inset:0;border-radius:calc(var(--h)*.11);box-shadow:0 8px 20px rgba(0,0,0,.35);z-index:-1}
+.flip::before{content:"";position:absolute;inset:0;border-radius:calc(var(--h)*.11);box-shadow:0 4px 10px rgba(0,0,0,.18);z-index:-1}
 .colon{display:flex;flex-direction:column;gap:calc(var(--h)*.18)}
-.colon i{width:calc(var(--h)*.07);height:calc(var(--h)*.07);border-radius:50%;background:#3a3a3a}
+.colon i{width:calc(var(--h)*.07);height:calc(var(--h)*.07);border-radius:50%;background:#111}
 </style></head><body>
-<div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div>
+<div class="fr"><div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div></div>
 <script>
 const P=new URLSearchParams(location.search);
 function build(el,v){el.dataset.v=v;el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${v}</span></div>`;}

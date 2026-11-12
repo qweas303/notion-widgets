@@ -1,6 +1,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:transparent;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;font-family:"Nanum Myeongjo","Noto Serif KR",Georgia,serif;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums tabular-nums;color:#111}
-.card{width:calc(100% - 8px);height:calc(100% - 8px);max-height:260px;background:#fff;color:#111;display:flex;flex-direction:column;justify-content:center;padding:18px 22px;position:relative;border-top:1px solid #111;border-bottom:1px solid #111}
-.label{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:10.5px;letter-spacing:.38em;text-transform:uppercase;color:#8a8a8a;font-weight:500}
-.serif{font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif}
+body{display:flex;align-items:center;justify-content:center;font-family:"Nanum Myeongjo",serif;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums tabular-nums;color:#111}
+.card{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;background:#fff;color:#111;display:flex;flex-direction:column;justify-content:center;padding:18px 8px;position:relative;border-top:1px solid #111;border-bottom:1px solid #111}
+.label{font-family:Inter,sans-serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:#8a8a8a;font-weight:500}
+.serif{font-family:"Cormorant Garamond",Georgia,serif}
+.kr{font-family:"Nanum Myeongjo",serif}
