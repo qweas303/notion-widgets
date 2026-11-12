@@ -4,7 +4,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:transparent;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;font-family:Pretendard,"Inter",sans-serif;--h:min(46vh,19vw)}
+body{display:flex;align-items:center;justify-content:center;font-family:Pretendard,"Inter",sans-serif;--h:min(46vh,16vw)}
+.ap{--h:calc(min(46vh,16vw) / 2);font-size:calc(var(--h)*.5)!important;letter-spacing:.02em!important;transform:translateY(calc(var(--h)/2));margin-left:calc(var(--h)*.15)}
 .fr{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;border-top:2px solid #151515;border-bottom:1px solid #e3e3e3;display:flex;align-items:center;justify-content:center;gap:2.4vw}
 .flip{position:relative;width:calc(var(--h)*1.08);height:var(--h);perspective:600px;font-size:calc(var(--h)*.66);font-weight:700;color:#e6e6e6;letter-spacing:-.02em}
 .half{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#262626;display:flex;justify-content:center}
@@ -23,17 +24,18 @@ body{display:flex;align-items:center;justify-content:center;font-family:Pretenda
 .colon{display:flex;flex-direction:column;gap:calc(var(--h)*.18)}
 .colon i{width:calc(var(--h)*.07);height:calc(var(--h)*.07);border-radius:50%;background:#111}
 </style></head><body>
-<div class="fr"><div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div></div>
+<div class="fr"><div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div><div class="flip ap" id="A"></div></div>
 <script>
 const P=new URLSearchParams(location.search),TZ=P.get('tz')||'Asia/Seoul';
-const els=[H,M,S];
+const els=[H,M,S,A];
 function build(el,v){clearTimeout(el._t);el.dataset.v=v;el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${v}</span></div>`;}
 function flip(el,v){const o=el.dataset.v;if(o===v)return;
  if(document.hidden){build(el,v);return;}
  clearTimeout(el._t);el.dataset.v=v;
  el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${o}</span></div><div class="half top flap go"><span>${o}</span></div><div class="half flap2 go"><span>${v}</span></div>`;
  el._t=setTimeout(()=>{if(el.dataset.v===v)build(el,v);},600);}
-function now(){return new Date().toLocaleTimeString('en-GB',{timeZone:TZ,hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'}).split(':');}
+function now(){const p={};new Intl.DateTimeFormat('en-US',{timeZone:TZ,hour12:true,hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
+ return [p.hour.padStart(2,'0'),p.minute,p.second,(p.dayPeriod||'AM').toUpperCase()];}
 function render(animate){const t=now();els.forEach((el,i)=>animate?flip(el,t[i]):build(el,t[i]));}
 function tick(){render(true);setTimeout(tick,1000-(Date.now()%1000)+15);}
 render(false);setTimeout(tick,1000-(Date.now()%1000)+15);
