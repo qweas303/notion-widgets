@@ -23,15 +23,18 @@ body{display:flex;align-items:center;justify-content:center;font-family:Pretenda
 
 .colon{display:flex;flex-direction:column;gap:calc(var(--h)*.18)}
 .colon i{width:calc(var(--h)*.07);height:calc(var(--h)*.07);border-radius:50%;background:#111}
-.flip span{display:block;line-height:1;transition:opacity .18s ease}.flip span.f{opacity:.25}
+.flip span{display:block;line-height:1;transition:opacity .18s ease}
 </style></head><body>
 <div class="fr"><div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div><div class="flip ap" id="A"></div></div>
 <script>
 const P=new URLSearchParams(location.search),TZ=P.get('tz')||'Asia/Seoul';
 const els=[H,M,S,A];
 function build(el,v){el.dataset.v=v;el.innerHTML=`<span>${v}</span>`;}
-function flip(el,v){if(el.dataset.v===v)return;if(!el.firstChild||document.hidden){build(el,v);return;}
- const sp=el.firstChild;el.dataset.v=v;sp.classList.add('f');setTimeout(()=>{sp.textContent=v;sp.classList.remove('f');},180);}
+function flip(el,v){if(el.dataset.v===v)return;if(!el.firstChild||document.hidden||!el.animate){build(el,v);return;}
+ el.dataset.v=v;const sp=el.firstChild;
+ el.animate([{transform:'perspective(500px) rotateX(0deg)'},{transform:'perspective(500px) rotateX(90deg)'}],{duration:160,easing:'ease-in',fill:'forwards'}).onfinish=()=>{
+  sp.textContent=v;
+  el.animate([{transform:'perspective(500px) rotateX(-90deg)'},{transform:'perspective(500px) rotateX(0deg)'}],{duration:200,easing:'cubic-bezier(.2,.8,.3,1.2)',fill:'forwards'});};}
 function now(){const p={};new Intl.DateTimeFormat('en-US',{timeZone:TZ,hour12:true,hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
  return [p.hour.padStart(2,'0'),p.minute,p.second,(p.dayPeriod||'AM').toUpperCase()];}
 function render(animate){const t=now();els.forEach((el,i)=>animate?flip(el,t[i]):build(el,t[i]));}
