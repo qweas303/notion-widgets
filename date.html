@@ -1,0 +1,24 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Date</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+.row{display:flex;align-items:center;gap:20px}
+.day{font-size:clamp(54px,18vh,96px);line-height:.9;font-weight:600}
+.bar{width:1px;align-self:stretch;background:rgba(255,255,255,.18)}
+.right{display:flex;flex-direction:column;gap:8px}
+.month{font-size:clamp(18px,6vh,28px);font-weight:500;letter-spacing:.06em}
+.ko{font-size:13px;color:#b9b9b9;letter-spacing:.08em}
+</style></head><body>
+<div class="card"><div class="row">
+<div class="day serif" id="d">--</div><div class="bar"></div>
+<div class="right"><div class="label" id="w">WEEKDAY</div><div class="month serif" id="m">Month 0000</div><div class="ko" id="k"></div></div>
+</div></div>
+<script>
+function draw(){const n=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
+d.textContent=String(n.getDate()).padStart(2,'0');
+w.textContent=n.toLocaleDateString('en-US',{weekday:'long'});
+m.textContent=n.toLocaleDateString('en-US',{month:'long'})+' '+n.getFullYear();
+k.textContent=n.getFullYear()+'. '+(n.getMonth()+1)+'. '+n.getDate()+'. '+'일월화수목금토'[n.getDay()]+'요일';}
+draw();setInterval(draw,30000);
+</script></body></html>

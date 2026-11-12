@@ -1,0 +1,38 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weather</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+.row{display:flex;align-items:center;gap:18px}
+.icon{width:clamp(44px,16vh,72px);height:clamp(44px,16vh,72px);flex:none}
+.temp{font-size:clamp(46px,16vh,82px);line-height:.9;font-weight:600}
+.temp sup{font-size:.4em;vertical-align:top;margin-left:2px;color:#bdbdbd}
+.info{display:flex;flex-direction:column;gap:6px;margin-left:auto;text-align:right}
+.desc{font-size:15px;letter-spacing:.04em}
+.hl{font-size:12px;color:#a8a8a8;letter-spacing:.06em}
+</style></head><body>
+<div class="card">
+<div class="row">
+<svg class="icon" id="ic" viewBox="0 0 64 64" fill="none" stroke="#e8e8e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg>
+<div class="temp serif" id="t">--<sup>°</sup></div>
+<div class="info"><div class="label" id="city">SEOUL</div><div class="desc" id="ds">불러오는 중</div><div class="hl" id="hl"></div></div>
+</div></div>
+<script>
+const P=new URLSearchParams(location.search),lat=P.get('lat')||37.5665,lon=P.get('lon')||126.978;
+if(P.get('city'))city.textContent=P.get('city');
+const sun='<circle cx="32" cy="32" r="10"/><path d="M32 10v6M32 48v6M10 32h6M48 32h6M16.4 16.4l4.3 4.3M43.3 43.3l4.3 4.3M16.4 47.6l4.3-4.3M43.3 20.7l4.3-4.3"/>';
+const moon='<path d="M42 40A16 16 0 0 1 26 18a16 16 0 1 0 16 22z"/>';
+const cloud='<path d="M20 46h26a9 9 0 0 0 0-18 13 13 0 0 0-25-3A10 10 0 0 0 20 46z"/>';
+const I={clear:d=>d?sun:moon,partly:d=>(d?'<g transform="translate(-6 -8) scale(.75)">'+sun+'</g>':'<g transform="translate(-4 -6) scale(.7)">'+moon+'</g>')+cloud,
+cloud:()=>cloud,fog:()=>'<path d="M14 26h36M10 34h44M16 42h32"/>',
+rain:()=>'<g transform="translate(0 -6)">'+cloud+'</g><path d="M24 46l-3 7M33 46l-3 7M42 46l-3 7"/>',
+snow:()=>'<g transform="translate(0 -6)">'+cloud+'</g><path d="M24 48v.1M32 52v.1M40 48v.1M28 56v.1M36 56v.1" stroke-width="4"/>',
+storm:()=>'<g transform="translate(0 -6)">'+cloud+'</g><path d="M33 42l-5 8h7l-4 8"/>'};
+function map(c){if(c==0)return['clear','맑음'];if(c<=2)return['partly','구름 조금'];if(c==3)return['cloud','흐림'];if(c<=48)return['fog','안개'];
+if(c<=67||(c>=80&&c<=82))return['rain',c>=80?'소나기':'비'];if(c<=77||c==85||c==86)return['snow','눈'];return['storm','뇌우'];}
+async function load(){try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=1`);
+const j=await r.json(),c=j.current,[k,txt]=map(c.weather_code);
+ic.innerHTML=I[k](c.is_day);t.innerHTML=Math.round(c.temperature_2m)+'<sup>°</sup>';ds.textContent=txt;
+hl.textContent='최고 '+Math.round(j.daily.temperature_2m_max[0])+'° · 최저 '+Math.round(j.daily.temperature_2m_min[0])+'°';}catch(e){ds.textContent='날씨를 불러오지 못했어요';}}
+load();setInterval(load,15*60*1000);
+</script></body></html>
