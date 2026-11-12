@@ -1,6 +1,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:transparent;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums tabular-nums}
-.card{width:calc(100% - 8px);height:calc(100% - 8px);max-height:260px;border-radius:18px;background:linear-gradient(160deg,#2b2b2b 0%,#1c1c1c 100%);box-shadow:0 6px 18px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.06);color:#ececec;display:flex;flex-direction:column;justify-content:center;padding:18px 22px;position:relative}
-.label{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#9a9a9a;font-weight:600}
-.serif{font-family:"Cormorant Garamond","Playfair Display",Georgia,"Times New Roman",serif}
+body{display:flex;align-items:center;justify-content:center;font-family:"Nanum Myeongjo","Noto Serif KR",Georgia,serif;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums tabular-nums;color:#111}
+.card{width:calc(100% - 8px);height:calc(100% - 8px);max-height:260px;background:#fff;color:#111;display:flex;flex-direction:column;justify-content:center;padding:18px 22px;position:relative;border-top:1px solid #111;border-bottom:1px solid #111}
+.label{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:10.5px;letter-spacing:.38em;text-transform:uppercase;color:#8a8a8a;font-weight:500}
+.serif{font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif}
