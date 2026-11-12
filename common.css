@@ -2,4 +2,4 @@
 html,body{height:100%;background:transparent;overflow:hidden}
 body{display:flex;align-items:center;justify-content:center;font-family:Pretendard,"Apple SD Gothic Neo",sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;color:#151515}
 .card{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;background:#fff;display:flex;flex-direction:column;justify-content:center;padding:18px 10px;border-top:2px solid #151515;border-bottom:1px solid #e3e3e3}
-.label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#1f4e8c;font-weight:700}
+.label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#7a1f2b;font-weight:700}

@@ -1,7 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Weather</title>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="common.css?v=4">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="common.css?v=5">
 <style>
 .top{display:flex;align-items:center;gap:16px}
 .icon{width:52px;height:52px;flex:none}
@@ -18,7 +18,7 @@
 </style></head><body>
 <div class="card">
 <div class="top">
-<svg class="icon" id="ic" viewBox="0 0 64 64" fill="none" stroke="#1f4e8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg>
+<svg class="icon" id="ic" viewBox="0 0 64 64" fill="none" stroke="#7a1f2b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg>
 <div class="temp" id="t">--<sup>°</sup></div>
 <div class="info"><div class="label" id="city">SEOUL</div><div class="desc" id="ds">불러오는 중</div></div>
 </div>
@@ -37,7 +37,7 @@ snow:()=>'<g transform="translate(0 -6)">'+cloud+'</g><path d="M24 48v.1M32 52v.
 storm:()=>'<g transform="translate(0 -6)">'+cloud+'</g><path d="M33 42l-5 8h7l-4 8"/>'};
 function map(c){if(c==0)return['clear','맑음'];if(c<=2)return['partly','구름 조금'];if(c==3)return['cloud','흐림'];if(c<=48)return['fog','안개'];
 if(c<=67||(c>=80&&c<=82))return['rain',c>=80?'소나기':'비'];if(c<=77||c==85||c==86)return['snow','눈'];return['storm','뇌우'];}
-const svg=(k,d)=>`<svg viewBox="0 0 64 64" fill="none" stroke="#1f4e8c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${I[k](d)}</svg>`;
+const svg=(k,d)=>`<svg viewBox="0 0 64 64" fill="none" stroke="#7a1f2b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${I[k](d)}</svg>`;
 async function load(){try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=3`);
 const j=await r.json(),c=j.current,[k,txt]=map(c.weather_code);
 ic.innerHTML=I[k](c.is_day);t.innerHTML=Math.round(c.temperature_2m)+'<sup>°</sup>';ds.textContent=txt;
