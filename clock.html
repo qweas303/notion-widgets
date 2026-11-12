@@ -7,7 +7,7 @@ html,body{height:100%;background:transparent;overflow:hidden}
 body{display:flex;align-items:center;justify-content:center;font-family:Pretendard,"Inter",sans-serif;--h:min(46vh,16vw)}
 .ap{--h:calc(min(46vh,16vw) / 2);font-size:calc(var(--h)*.5)!important;letter-spacing:.02em!important;transform:translateY(calc(var(--h)/2));margin-left:calc(var(--h)*.15)}
 .fr{width:calc(100% - 8px);height:calc(100% - 8px);max-height:240px;border-top:2px solid #151515;border-bottom:1px solid #e3e3e3;display:flex;align-items:center;justify-content:center;gap:2.4vw}
-.flip{position:relative;width:calc(var(--h)*1.08);height:var(--h);perspective:600px;font-size:calc(var(--h)*.66);font-weight:700;color:#e6e6e6;letter-spacing:-.02em}
+.flip{position:relative;display:flex;align-items:center;justify-content:center;background:#232323;border-radius:calc(var(--h)*.11);box-shadow:0 4px 10px rgba(0,0,0,.18);width:calc(var(--h)*1.08);height:var(--h);perspective:600px;font-size:calc(var(--h)*.66);font-weight:700;color:#e6e6e6;letter-spacing:-.02em}
 .half{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#262626;display:flex;justify-content:center}
 .half span{display:block;height:var(--h);line-height:var(--h)}
 .top{top:0;border-radius:calc(var(--h)*.11) calc(var(--h)*.11) 0 0;background:#232323}
@@ -20,20 +20,18 @@ body{display:flex;align-items:center;justify-content:center;font-family:Pretenda
 .flap2.go{animation:fl2 .26s .26s ease-out forwards}
 @keyframes fl{to{transform:rotateX(-90deg)}}@keyframes fl2{to{transform:rotateX(0)}}
 
-.flip::before{content:"";position:absolute;inset:0;border-radius:calc(var(--h)*.11);box-shadow:0 4px 10px rgba(0,0,0,.18);z-index:-1}
+
 .colon{display:flex;flex-direction:column;gap:calc(var(--h)*.18)}
 .colon i{width:calc(var(--h)*.07);height:calc(var(--h)*.07);border-radius:50%;background:#111}
+.flip span{display:block;line-height:1;transition:opacity .18s ease}.flip span.f{opacity:.25}
 </style></head><body>
 <div class="fr"><div class="flip" id="H"></div><div class="colon"><i></i><i></i></div><div class="flip" id="M"></div><div class="colon"><i></i><i></i></div><div class="flip" id="S"></div><div class="flip ap" id="A"></div></div>
 <script>
 const P=new URLSearchParams(location.search),TZ=P.get('tz')||'Asia/Seoul';
 const els=[H,M,S,A];
-function build(el,v){clearTimeout(el._t);el.dataset.v=v;el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${v}</span></div>`;}
-function flip(el,v){const o=el.dataset.v;if(o===v)return;
- if(document.hidden){build(el,v);return;}
- clearTimeout(el._t);el.dataset.v=v;
- el.innerHTML=`<div class="half top"><span>${v}</span></div><div class="half bot"><span>${o}</span></div><div class="half top flap go"><span>${o}</span></div><div class="half flap2 go"><span>${v}</span></div>`;
- el._t=setTimeout(()=>{if(el.dataset.v===v)build(el,v);},600);}
+function build(el,v){el.dataset.v=v;el.innerHTML=`<span>${v}</span>`;}
+function flip(el,v){if(el.dataset.v===v)return;if(!el.firstChild||document.hidden){build(el,v);return;}
+ const sp=el.firstChild;el.dataset.v=v;sp.classList.add('f');setTimeout(()=>{sp.textContent=v;sp.classList.remove('f');},180);}
 function now(){const p={};new Intl.DateTimeFormat('en-US',{timeZone:TZ,hour12:true,hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
  return [p.hour.padStart(2,'0'),p.minute,p.second,(p.dayPeriod||'AM').toUpperCase()];}
 function render(animate){const t=now();els.forEach((el,i)=>animate?flip(el,t[i]):build(el,t[i]));}
