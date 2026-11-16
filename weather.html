@@ -38,12 +38,25 @@ storm:()=>'<g transform="translate(0 -6)">'+cloud+'</g><path d="M33 42l-5 8h7l-4
 function map(c){if(c==0)return['clear','맑음'];if(c<=2)return['partly','구름 조금'];if(c==3)return['cloud','흐림'];if(c<=48)return['fog','안개'];
 if(c<=67||(c>=80&&c<=82))return['rain',c>=80?'소나기':'비'];if(c<=77||c==85||c==86)return['snow','눈'];return['storm','뇌우'];}
 const svg=(k,d)=>`<svg viewBox="0 0 64 64" fill="none" stroke="#f2f2f2" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${I[k](d)}</svg>`;
-async function load(){try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=3`);
-const j=await r.json(),c=j.current,[k,txt]=map(c.weather_code);
-ic.innerHTML=I[k](c.is_day);t.innerHTML=Math.round(c.temperature_2m)+'<sup>°</sup>';ds.textContent=txt;
-const D=j.daily;days.innerHTML=D.time.map((s,i)=>{const [kk]=map(D.weather_code[i]);
-const nm=i==0?'오늘':i==1?'내일':'일월화수목금토'[new Date(s+'T00:00:00').getDay()]+'요일';
-return `<div class="day"><div class="dn">${nm}</div>${svg(kk,1)}<div class="dt">${Math.round(D.temperature_2m_max[i])}° <i>/ ${Math.round(D.temperature_2m_min[i])}°</i></div></div>`}).join('');
-}catch(e){ds.textContent='날씨를 불러오지 못했어요';}}
-load();setInterval(load,15*60*1000);
+function render(cur,daily){const [k,txt]=map(cur.code);
+ic.innerHTML=I[k](cur.day);t.innerHTML=Math.round(cur.temp)+'<sup>°</sup>';ds.textContent=txt;
+days.innerHTML=daily.map((d,i)=>{const [kk]=map(d.code);
+const nm=i==0?'오늘':i==1?'내일':'일월화수목금토'[new Date(d.date+'T00:00:00').getDay()]+'요일';
+return `<div class="day"><div class="dn">${nm}</div>${svg(kk,1)}<div class="dt">${Math.round(d.max)}° <i>/ ${Math.round(d.min)}°</i></div></div>`}).join('');}
+function tfetch(u,ms){const c=new AbortController();const id=setTimeout(()=>c.abort(),ms);return fetch(u,{signal:c.signal,cache:'no-store'}).finally(()=>clearTimeout(id));}
+async function fromOpenMeteo(){const r=await tfetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=3`,8000);
+ if(!r.ok)throw 0;const j=await r.json(),D=j.daily;
+ return {cur:{temp:j.current.temperature_2m,code:j.current.weather_code,day:j.current.is_day},daily:D.time.map((d,i)=>({date:d,code:D.weather_code[i],max:D.temperature_2m_max[i],min:D.temperature_2m_min[i]}))};}
+const W2C=c=>{c=+c;if(c==113)return 0;if(c==116)return 2;if(c==119||c==122)return 3;if([143,248,260].includes(c))return 45;if([200,386,389,392,395].includes(c))return 95;
+ if([179,182,185,227,230,317,320,323,326,329,332,335,338,350,368,371,374,377].includes(c))return 73;return 61;};
+async function fromWttr(){const r=await tfetch('https://wttr.in/'+lat+','+lon+'?format=j1',9000);if(!r.ok)throw 0;const j=await r.json(),c=j.current_condition[0];
+ const h=new Date().getHours();return {cur:{temp:+c.temp_C,code:W2C(c.weatherCode),day:h>=6&&h<18?1:0},
+ daily:j.weather.slice(0,3).map(w=>({date:w.date,code:W2C(w.hourly[4].weatherCode),max:+w.maxtempC,min:+w.mintempC}))};}
+async function load(){let d=null;
+ for(const f of [fromOpenMeteo,fromWttr,fromOpenMeteo]){try{d=await f();break;}catch(e){}}
+ if(d){render(d.cur,d.daily);try{localStorage.setItem('wx',JSON.stringify({t:Date.now(),d}))}catch(e){}return true;}
+ try{const c=JSON.parse(localStorage.getItem('wx'));if(c){render(c.d.cur,c.d.daily);return false;}}catch(e){}
+ ds.textContent='날씨 연결 재시도 중';return false;}
+async function boot(){const ok=await load();setTimeout(boot,ok?15*60*1000:60*1000);}
+boot();
 </script></body></html>
